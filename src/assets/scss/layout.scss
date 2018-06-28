@@ -1,0 +1,16 @@
+@mixin layout-center($style){
+  position: $style;
+  left: 50%;
+  top: 50%;
+  transform: translate3d(-50%,-50%,0);
+}
+@mixin layout-vertical-center($style){
+  position: $style;
+  left: 50%;
+  transform: translate3d(-50%,0,0);
+}
+@mixin layout-horizontal-center($style){
+  position: $style;
+  top: 50%;
+  transform: translate3d(0,-50%,0);
+}
