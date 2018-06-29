@@ -2,7 +2,6 @@
   <div id="app">
     <login v-if="isShowLogin" v-on:success="loginSuccess"></login>
     <mainPage v-if="isShowMain" v-on:signOut="signOut"></mainPage>
-    <router-view/>
   </div>
 </template>
 
