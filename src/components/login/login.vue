@@ -103,13 +103,15 @@
 
         axios.get('/api/login?username=' + userName + '&password=' + password + '').then(function (response) {
           if (response.data.errNo == 0) {
+            console.log(_this)
+            _this.$emit("success");
+            _this.$router.push({"path":"/mainPage/dailyTask"});
             userName = '';
             password = '';
             verification = '';
-            _this.$emit("success");
           }
         }).catch(function (response) {
-          console.log(_this);
+          //console.log(_this);
         });
 
       },

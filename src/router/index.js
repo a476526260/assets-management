@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router';
+import login from "../components/login/login"
+import mainPage from "../components/main/mainPage"
 import dailyTask from  '../components/dailyTask/dailyTask'
 import order from '../components/order/order'
 import require from '../components/require/require'
@@ -22,83 +24,91 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'dailyTask',
-      component: dailyTask
+      name: 'login',
+      component: login
     },
     {
-      path: '/dailyTask',
-      name: 'dailyTask',
-      component: dailyTask
-    },
-    {
-      path: '/order',
-      name: 'order',
-      component: order
-    },
-    {
-      path: '/require',
-      name: 'require',
-      component: require
-    },
-    {
-      path: '/member',
-      name: 'member',
-      component: member
-    },
-    {
-      path: '/asset',
-      name: 'asset',
-      component: asset
-    },
-    {
-      path: '/aliCloud',
-      name: 'aliCloud',
-      component: aliCloud
-    },
-    {
-      path: '/OB',
-      name: 'OB',
-      component: OB
-    },
-    {
-      path: '/modify',
-      name: 'modify',
-      component: modify
-    },
-    {
-      path: '/modelData',
-      name: 'modelData',
-      component: modelData
-    },
-    {
-      path: '/property',
-      name: 'property',
-      component: property
-    },
-    {
-      path: '/administrators',
-      name: 'administrators',
-      component: administrators
-    },
-    {
-      path: '/department',
-      name: 'department',
-      component: department
-    },
-    {
-      path: '/dictionary',
-      name: 'dictionary',
-      component: dictionary
-    },
-    {
-      path: '/API',
-      name: 'API',
-      component: API
-    },
-    {
-      path: '/log',
-      name: 'log',
-      component: log
+      path:'/mainPage',
+      name:'mainPage',
+      component:mainPage,
+      children:[
+        {
+          path: 'dailyTask',
+          name: 'dailyTask',
+          component: dailyTask
+        },
+        {
+          path: 'order',
+          name: 'order',
+          component: order
+        },
+        {
+          path: 'require',
+          name: 'require',
+          component: require
+        },
+        {
+          path: 'member',
+          name: 'member',
+          component: member
+        },
+        {
+          path: 'asset',
+          name: 'asset',
+          component: asset
+        },
+        {
+          path: 'aliCloud',
+          name: 'aliCloud',
+          component: aliCloud
+        },
+        {
+          path: 'OB',
+          name: 'OB',
+          component: OB
+        },
+        {
+          path: 'modify',
+          name: 'modify',
+          component: modify
+        },
+        {
+          path: 'modelData',
+          name: 'modelData',
+          component: modelData
+        },
+        {
+          path: 'property',
+          name: 'property',
+          component: property
+        },
+        {
+          path: 'administrators',
+          name: 'administrators',
+          component: administrators
+        },
+        {
+          path: 'department',
+          name: 'department',
+          component: department
+        },
+        {
+          path: 'dictionary',
+          name: 'dictionary',
+          component: dictionary
+        },
+        {
+          path: 'API',
+          name: 'API',
+          component: API
+        },
+        {
+          path: 'log',
+          name: 'log',
+          component: log
+        }
+      ]
     }
+
   ]
 })

@@ -18,13 +18,13 @@
                   <i class="title-icon iconfont icon-shouye"></i><span>首页</span>
                 </template>
                 <el-menu-item-group>
-                  <el-menu-item index="/dailyTask">
+                  <el-menu-item index="/mainPage/dailyTask">
                     <i class="item-icon iconfont icon-renwumingcheng"></i><span>日常任务</span>
                   </el-menu-item>
-                  <el-menu-item index="/order">
+                  <el-menu-item index="/mainPage/order">
                     <i class="item-icon iconfont icon-jilu"></i><span>工单系统</span>
                   </el-menu-item>
-                  <el-menu-item index="/require">
+                  <el-menu-item index="/mainPage/require">
                     <i class="item-icon iconfont icon-xuqiudengji"></i><span>项目需求管理</span>
                   </el-menu-item>
                 </el-menu-item-group>
@@ -35,16 +35,16 @@
                   <i class="title-icon iconfont icon-dv_diannao"></i><span>管理中心</span>
                 </template>
                 <el-menu-item-group>
-                  <el-menu-item index="/member">
+                  <el-menu-item index="/mainPage/member">
                     <i class="item-icon iconfont icon-renyuanguanli1"></i><span>人员管理</span>
                   </el-menu-item>
-                  <el-menu-item index="/asset">
+                  <el-menu-item index="/mainPage/asset">
                     <i class="item-icon iconfont icon-asset"></i><span>资产管理</span>
                   </el-menu-item>
-                  <el-menu-item index="/aliCloud">
+                  <el-menu-item index="/mainPage/aliCloud">
                     <i class="item-icon iconfont icon-wangluoxitong"></i><span>阿里云资产</span>
                   </el-menu-item>
-                  <el-menu-item index="/OB">
+                  <el-menu-item index="/mainPage/OB">
                     <i class="item-icon iconfont icon-yunweiguanli"></i><span>OB管理</span>
                   </el-menu-item>
                 </el-menu-item-group>
@@ -55,28 +55,28 @@
                   <i class="title-icon iconfont icon-shezhi"></i><span>系统管理</span>
                 </template>
                 <el-menu-item-group>
-                  <el-menu-item index="/modify">
+                  <el-menu-item index="/mainPage/modify">
                     <i class="item-icon iconfont icon-xiugaimima"></i><span>修改密码</span>
                   </el-menu-item>
-                  <el-menu-item index="/modelData">
+                  <el-menu-item index="/mainPage/modelData">
                     <i class="item-icon iconfont icon-shuju"></i><span>模型数据管理</span>
                   </el-menu-item>
-                  <el-menu-item index="/property">
+                  <el-menu-item index="/mainPage/property">
                     <i class="item-icon iconfont icon-shezhi1"></i><span>属性管理</span>
                   </el-menu-item>
-                  <el-menu-item index="/department">
+                  <el-menu-item index="/mainPage/department">
                     <i class="item-icon iconfont icon-renyuanguanli"></i><span>部门管理</span>
                   </el-menu-item>
-                  <el-menu-item index="/administrators">
+                  <el-menu-item index="/mainPage/administrators">
                     <i class="item-icon iconfont icon-guanliyuanshouye"></i><span>管理员管理</span>
                   </el-menu-item>
-                  <el-menu-item index="/dictionary">
+                  <el-menu-item index="/mainPage/dictionary">
                     <i class="item-icon iconfont icon-zidian"></i><span>字典</span>
                   </el-menu-item>
-                  <el-menu-item index="/API">
+                  <el-menu-item index="/mainPage/API">
                     <i class="item-icon iconfont icon-jiekouguanli"></i><span>接口</span>
                   </el-menu-item>
-                  <el-menu-item index="/log">
+                  <el-menu-item index="/mainPage/log">
                     <i class="item-icon iconfont icon-rizhi"></i><span>操作日志</span>
                   </el-menu-item>
                   <el-menu-item index="" @click="signOut">
@@ -98,7 +98,7 @@
 </template>
 
 <script>
-  import dailyTask from '../dailyTask/dailyTask';
+
 
   export default {
     name: "mainPage",
@@ -112,7 +112,7 @@
     },
     methods: {
       signOut: function () {
-        //this.$router.push("/")
+        this.$router.push("/");
         this.$emit("signOut", event.target)
       },
       handleOpen(key, keyPath) {
@@ -163,7 +163,7 @@
       }
       .about-user {
         margin: 25px 0;
-        padding-right: 35px;
+        padding-right: 50px;
         overflow: hidden;
         span {
           position: relative;
