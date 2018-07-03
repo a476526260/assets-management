@@ -5,12 +5,12 @@
         <div class="title-txt">IT部资产管理系统</div>
         <div class="about-user">
           <span class="modify">密码修改</span>
-          <span class="sign-out" @click="signOut">退出登录</span>
+          <span class="sign-out" @click="showDialog">退出登录</span>
         </div>
       </div>
       <div class="main-container" ref="container">
         <el-container style=" height: 100%;">
-          <el-aside class="aside" width="340px">
+          <el-aside class="aside" width="14%">
             <el-menu :default-active="$route.path" router ref="elMenu" @open="handleOpen" class="el-menu-vertical-demo"
                      background-color="#253340" text-color="#edf2fc" active-text-color="#f0aa14">
               <el-submenu index="1">
@@ -93,6 +93,14 @@
           </el-main>
         </el-container>
       </div>
+
+      <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
+        <span>确定要退出吗？</span>
+        <span slot="footer" class="dialog-footer">
+          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button type="primary" @click="signOut">确 定</el-button>
+        </span>
+      </el-dialog>
     </div>
   </transition>
 </template>
@@ -104,6 +112,7 @@
     name: "mainPage",
     data() {
       return {
+        dialogVisible:false,
         navIndex: ["1", "2", "3"]
       }
     },
@@ -111,9 +120,12 @@
       this.$refs.container.style.height = window.innerHeight - 80 + "px";
     },
     methods: {
+      showDialog:function(){
+        this.dialogVisible=true;
+      },
       signOut: function () {
+        this.dialogVisible=false;
         this.$router.push("/");
-        this.$emit("signOut", event.target)
       },
       handleOpen(key, keyPath) {
         var _this = this;
@@ -123,9 +135,7 @@
         this.$refs.elMenu.open(key);
       }
     },
-    components:{
-
-    }
+    components: {}
   }
 </script>
 
@@ -146,8 +156,8 @@
         color: inherit;
       }
     }
-    .el-menu-item-group__title{
-      padding: 0!important;
+    .el-menu-item-group__title {
+      padding: 0 !important;
     }
     .main-header {
       display: flex;
@@ -219,7 +229,7 @@
           }
         }
       }
-      .el-main{
+      .el-main {
         padding: 0;
       }
     }

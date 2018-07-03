@@ -1,11 +1,11 @@
 <template>
   <div class="task">
-    <div class="title">部门列表</div>
+    <departmentCaption></departmentCaption>
     <div class="container">
       <div class="task-progress">
         <h2 class="task-title">员工当前位置及任务进度</h2>
         <div class="task-table">
-          <el-table :data="tableData" style="width: 100%">
+          <el-table :data="tableData" style="width: 100%" :header-cell-style="setStyle" :header-cell-class-name="setClassName">
             <el-table-column prop="location" label="位置" align="center"></el-table-column>
             <el-table-column prop="name" label="员工信息" align="center"></el-table-column>
             <el-table-column prop="order" label="工单排序" align="center"></el-table-column>
@@ -53,6 +53,7 @@
 </template>
 
 <script>
+  import departmentCaption from "@/components/caption/dcaption"
   export default {
     name: "dailyTask",
     data() {
@@ -154,9 +155,20 @@
       },
       handleCurrentChange(val) {
         console.log(`当前页: ${val}`);
+      },
+      setStyle:function(row, rowIndex, columnIndex){
+        return { fontWeight:"bold","fontSize":"16px","textAlign":"center"}
+      },
+      setClassName:function () {
+        return "headerCell"
       }
     },
-    props: {}
+    props: {
+
+    },
+    components:{
+      departmentCaption
+    }
   }
 </script>
 
@@ -164,29 +176,7 @@
   @import "../../assets/scss/layout";
 
   .task {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    box-sizing: border-box;
-    .title {
-      width: 16px;
-      @include layout-vertical-center(absolute);
-      padding-right: 30px;
-      left: 1.5%;
-      font-size: 16px;
-      line-height: 18px;
-      color: #333333;
-      &:after {
-        content: '';
-        display: block;
-        width: 30px;
-        height: 30px;
-        @include layout-vertical-center(absolute);
-        right: 0;
-        background: url("../../assets/images/icon-sprite.png") no-repeat;
-        background-position: -150px 0;
-      }
-    }
+    @include fullScreen;
     .container {
       padding-left: 90px;
       padding-right: 50px;

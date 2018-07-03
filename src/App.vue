@@ -1,8 +1,6 @@
 <template>
   <div id="app">
     <router-view></router-view>
-    <!--<login v-if="isShowLogin" v-on:success="loginSuccess"></login>
-    <mainPage v-if="isShowMain" v-on:signOut="signOut"></mainPage>-->
   </div>
 </template>
 
@@ -46,3 +44,4 @@
     overflow: hidden;
   }
 </style>
+0000
