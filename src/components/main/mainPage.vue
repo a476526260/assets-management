@@ -4,7 +4,7 @@
       <div class="main-header">
         <div class="title-txt">IT部资产管理系统</div>
         <div class="about-user">
-          <span class="modify">密码修改</span>
+          <span class="modify" @click="modifyPassword">密码修改</span>
           <span class="sign-out" @click="showDialog">退出登录</span>
         </div>
       </div>
@@ -79,7 +79,7 @@
                   <el-menu-item index="/mainPage/log">
                     <i class="item-icon iconfont icon-rizhi"></i><span>操作日志</span>
                   </el-menu-item>
-                  <el-menu-item index="" @click="signOut">
+                  <el-menu-item index="" @click="showDialog">
                     <i class="item-icon iconfont icon-tuichu"></i><span>退出</span>
                   </el-menu-item>
                 </el-menu-item-group>
@@ -88,7 +88,7 @@
           </el-aside>
           <el-main class="main">
             <keep-alive>
-              <router-view name="default"></router-view>
+              <router-view :user="user" name="default"></router-view>
             </keep-alive>
           </el-main>
         </el-container>
@@ -116,6 +116,11 @@
         navIndex: ["1", "2", "3"]
       }
     },
+    props:{
+      user:{
+        type:String
+      }
+    },
     mounted() {
       this.$refs.container.style.height = window.innerHeight - 80 + "px";
     },
@@ -126,6 +131,10 @@
       signOut: function () {
         this.dialogVisible=false;
         this.$router.push("/");
+        localStorage.setItem("userName","");
+      },
+      modifyPassword:function(){
+        this.$router.push("/mainPage/modify");
       },
       handleOpen(key, keyPath) {
         var _this = this;
@@ -156,8 +165,10 @@
         color: inherit;
       }
     }
-    .el-menu-item-group__title {
-      padding: 0 !important;
+    .el-menu-item-group {
+      .el-menu-item:first-child{
+        margin-top: -20px;
+      }
     }
     .main-header {
       display: flex;

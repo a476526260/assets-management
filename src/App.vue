@@ -1,32 +1,26 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+    <router-view :user="userName" v-on:success="loginSuccess"></router-view>
   </div>
 </template>
 
 <script>
+  import Vue from 'vue'
   import login from './components/login/login'
   import mainPage from './components/main/mainPage'
   export default {
     name: 'App',
     data(){
       return {
-        isShowLogin:"",
-        isShowMain:""
+        userName:"",
       }
     },
-    created(){
-      this.isShowLogin=false;
-      this.isShowMain=true;
-    },
+    created(){},
     methods:{
-      loginSuccess:function () {
-        this.isShowLogin=false;
-        this.isShowMain=true;
-      },
-      signOut:function () {
-        this.isShowLogin=true;
-        this.isShowMain=false;
+      loginSuccess:function (e) {
+        this.userName=e.userName;
+        //将用户名保存到本地
+        localStorage.setItem("userName",e.userName);
       }
     },
     components:{

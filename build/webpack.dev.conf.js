@@ -14,6 +14,7 @@ const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
 const appData=require('../data.json');
+const modify=require('../modify.json');
 
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -29,6 +30,13 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         res.json({
           errNo:appData.errorNo,
           data:appData.data
+        })
+      });
+
+      app.get('/api/modifyPassword',function(req,res){
+        res.json({
+          errNo:modify.errorNo,
+          data:modify.data
         })
       });
     },

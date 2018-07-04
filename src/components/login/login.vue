@@ -8,15 +8,15 @@
           <div class="form-area">
             <div class="form-input">
               <label class="icon" for="user"></label>
-              <input type="text" id="user" placeholder="请使用邮箱、手机、工号">
+              <input v-model="userInfo.userName" type="text" id="user" placeholder="请使用邮箱、手机、工号">
             </div>
             <div class="form-input">
               <label class="icon" for="password"></label>
-              <input type="password" id="password" placeholder="密码长度为6-16位，字母+数字">
+              <input v-model="userInfo.password" type="password" id="password" placeholder="密码长度为6-16位，字母+数字">
             </div>
             <div class="form-input">
               <label class="icon" for="verification"></label>
-              <input type="text" id="verification" placeholder="请输入验证码">
+              <input v-model="userInfo.verification" type="text" id="verification" placeholder="请输入验证码">
               <span class="verification-code" @click="changeImg($event)" ref="verification"><img
                 src="./verification.png"></span>
             </div>
@@ -50,7 +50,12 @@
         verification: "",
         verificationSrc: "",
         dialogShow:false,
-        msg:""
+        msg:"",
+        userInfo:{
+          userName:'',
+          password:'',
+          verification:''
+        }
       }
     },
     mounted() {
@@ -84,31 +89,27 @@
       /**登陆*/
       sign: function () {
         let _this = this;
-        let userName = document.getElementById("user").value,
-          password = document.getElementById("password").value,
-          verification = document.getElementById("verification").value;
-        if (userName === '') {
+        if (this.userInfo.userName === '') {
           _this.showDialog("用户名不能为空");
           document.getElementById("user").focus();
           return false;
-        } else if (!/\d{6,16}$/.test(password)) {
-          _this.showDialog("密码必须为6-16位数字");
+        } else if ((!(this.userInfo.password.length > 5 && this.userInfo.password.length < 17)) || (!(/[a-zA-Z]+(?=\d+)|\d+(?=[a-zA-Z]+)/).test(this.userInfo.password))) {
+          _this.showDialog("密码必须为6-16位数字和字母");
           document.getElementById("password").focus();
           return false;
-        } else if (verification != this.verification) {
+        } else if (this.userInfo.verification != this.verification) {
           _this.showDialog("验证码不正确");
           document.getElementById("verification").focus();
           return false;
         }
 
-        axios.get('/api/login?username=' + userName + '&password=' + password + '').then(function (response) {
+        axios.get('/api/login?username=' + this.userInfo.userName + '&password=' + this.userInfo.password + '').then(function (response) {
           if (response.data.errNo == 0) {
-            console.log(_this)
-            _this.$emit("success");
+            _this.$emit("success",{userName:_this.userInfo.userName});
             _this.$router.push({"path":"/mainPage/dailyTask"});
-            userName = '';
-            password = '';
-            verification = '';
+            _this.userInfo.userName = '';
+            _this.userInfo.password = '';
+            _this.userInfo.verification = '';
           }
         }).catch(function (response) {
           //console.log(_this);

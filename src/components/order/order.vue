@@ -284,47 +284,22 @@
         }).then(function (response) {
           if (response.data.errNo == 0) {
             if (_this.input == '') {
-              _this.$message({
-                showClose: true,
-                message: '设备编号不能为空！',
-                type: 'error'
-              });
+              _this.errorTip('设备编号不能为空！');
               return false;
             } else if (_this.input2 == '') {
-              _this.$message({
-                showClose: true,
-                message: '对接员工工号不能为空！',
-                type: 'error'
-              });
+              _this.errorTip('对接员工工号不能为空！');
               return false;
             } else if (_this.textarea == '') {
-              _this.$message({
-                showClose: true,
-                message: '工单内容不能为空！',
-                type: 'error'
-              });
+              _this.errorTip('工单内容不能为空！');
               return false;
             } else if (_this.value == '') {
-              _this.$message({
-                showClose: true,
-                message: '请选择工单类型！',
-                type: 'error'
-              });
-              _this.$message.error();
+              _this.errorTip('请选择工单类型！');
               return false;
             } else if (_this.value2 == '') {
-              _this.$message({
-                showClose: true,
-                message: '请选择区域！',
-                type: 'error'
-              });
+              _this.errorTip('请选择区域！');
               return false;
             } else if (_this.value3 == '') {
-              _this.$message({
-                showClose: true,
-                message: '请选择分配对象！',
-                type: 'error'
-              });
+              _this.errorTip('请选择分配对象！');
               return false;
             }
             _this.reset();
@@ -341,6 +316,13 @@
         this.value = '';
         this.value2 = '';
         this.value3 = '';
+      },
+      errorTip:function(val){
+        this.$message({
+          showClose: true,
+          message: val,
+          type: 'error'
+        });
       },
       handleSizeChange: function (e) {
         console.log(e)
