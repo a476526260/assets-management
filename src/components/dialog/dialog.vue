@@ -17,12 +17,12 @@
     name: "elDialog",
     data() {
       return {
-        isShow:false
+        isShow:false    //是否显示弹出框
       }
     },
     props: {
       message: {
-        type: String
+        type: String    //消息提示文字
       }
     },
     methods: {

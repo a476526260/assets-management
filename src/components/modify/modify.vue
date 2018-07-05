@@ -38,14 +38,13 @@
     name: "modify",
     data() {
       return {
-        userName: localStorage.getItem("userName"),
-        modifyData: {
+        userName: localStorage.getItem("userName"),  //用户名
+        modifyData: {                                //密码相关
           oldPassword: "",
           newPassword: "",
           newPassword2: ""
         },
-        message: "",
-        password: ''
+        password: ''                                 //保存用户原密码
       }
     },
     props: {

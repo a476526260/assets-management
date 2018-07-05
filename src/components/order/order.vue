@@ -77,27 +77,21 @@
       </div>
 
       <div class="order-list">
-        <el-table :data="tableData" style="width: 100%">
-          <el-table-column prop="order" label="工单编号" align="center"></el-table-column>
-          <el-table-column prop="title" label="标题" align="center"></el-table-column>
-          <el-table-column prop="content" label="内容" align="left" show-overflow-tooltip>
-            <!--<template slot-scope="scope">
-              <el-tooltip :content='scope.row.content' placement="bottom" effect="light" :hide-after='2000'>
-                <div>{{scope.row.content}}</div>
-              </el-tooltip>
-            </template>-->
-          </el-table-column>
-          <el-table-column prop="device" label="设备编号" align="center"></el-table-column>
-          <el-table-column prop="target" label="对接人" align="center"></el-table-column>
-          <el-table-column label="状态" align="center">
+        <el-table :data="tableData" style="width: 100%" tooltip-effect="light">
+          <el-table-column prop="order" label="工单编号" align="center" width="150px"></el-table-column>
+          <el-table-column prop="title" label="标题" align="center" width="250px"></el-table-column>
+          <el-table-column prop="content" label="内容" align="left" show-overflow-tooltip></el-table-column>
+          <el-table-column prop="device" label="设备编号" align="center" width="150px"></el-table-column>
+          <el-table-column prop="target" label="对接人" align="center" width="150px"></el-table-column>
+          <el-table-column label="状态" align="center" width="120px">
             <template slot-scope="scope">
               <el-tag :type="scope.row.status === '已处理' ? '' : 'danger'" disable-transitions>
                 {{scope.row.status}}
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="time" label="状态生成时间" align="center"></el-table-column>
-          <el-table-column prop="action" label="操作" align="center">
+          <el-table-column prop="time" label="状态生成时间" align="center" width="150px"></el-table-column>
+          <el-table-column prop="action" label="操作" align="center" width="150px">
             <template slot-scope="scope">
               <el-button @click.prevent="showDialog(scope.row.order)" size="medium" type="warning" plain round>
                 {{scope.row.action}}
@@ -180,7 +174,7 @@
           {
             value: "其他"
           }
-        ],
+        ],   //工单类型选择项
         orderArea: [
           {
             value: "花园坊A3 G401"
@@ -197,7 +191,7 @@
           {
             value: "花园坊A5 G203"
           }
-        ],
+        ],   //区域选择项
         allot: [
           {
             value: "自动分配"
@@ -214,7 +208,7 @@
           {
             value: "网管3"
           }
-        ],
+        ],       //分配对象选择项
         tableData: [
           {
             order: '8222221',
@@ -256,19 +250,20 @@
             time: '2018.05.05',
             action: '分配'
           },
-        ],
-        form: {
+        ],   //表单数据
+        form: {             //分配弹出框数据
           orderNumber: 0,
           target: '',
           orderType: '',
           orderContent: ""
         },
-        formLabelWidth: "120px",
-        dialogFormVisible: false
+        formLabelWidth: "120px",    //表单宽度
+        dialogFormVisible: false    //分配弹出框是否显示
       }
     },
     methods: {
       submit: function () {
+        /**工单提交*/
         var _this = this;
         if (this.input3 == '') {
           this.input3 = this.textarea.substr(0, 50);
@@ -309,6 +304,7 @@
         });
       },
       reset: function () {
+        /**重置表单*/
         this.input = '';
         this.input2 = '';
         this.input3 = '';
@@ -317,13 +313,6 @@
         this.value2 = '';
         this.value3 = '';
       },
-      errorTip:function(val){
-        this.$message({
-          showClose: true,
-          message: val,
-          type: 'error'
-        });
-      },
       handleSizeChange: function (e) {
         console.log(e)
       },
@@ -331,33 +320,23 @@
         console.log(e);
       },
       showDialog: function (orderNumber) {
+        /**显示弹出框*/
         this.dialogFormVisible = true;
         this.form.orderNumber = orderNumber;
       },
       submitData: function () {
+        /**分配数据提交*/
         var _this = this;
         axios.get('/api/login').then(function (response) {
           if (response.data.errNo == 0) {
             if (_this.form.target == '') {
-              _this.$message({
-                showClose: true,
-                message: '分配对象不能为空！',
-                type: 'error'
-              });
+              _this.errorTip('请选择分配对象！');
               return false;
             } else if (_this.form.orderType == '') {
-              _this.$message({
-                showClose: true,
-                message: '工单类型为空！',
-                type: 'error'
-              });
+              _this.errorTip('请选择工单类型！');
               return false;
             } else if (_this.form.orderContent == '') {
-              _this.$message({
-                showClose: true,
-                message: '工单内容不能为空！',
-                type: 'error'
-              });
+              _this.errorTip('请填写工单内容！');
               return false;
             }
             for (var prop in _this.form) {
@@ -368,8 +347,15 @@
         }).catch(function (response) {
           console.log(_this);
         });
-
-      }
+      },
+      errorTip:function(val){
+        /**提交错误提示*/
+        this.$message({
+          showClose: true,
+          message: val,
+          type: 'error'
+        });
+      },
     },
     components:{
       departmentCaption

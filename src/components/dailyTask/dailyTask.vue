@@ -5,7 +5,7 @@
       <div class="task-progress">
         <h2 class="task-title">员工当前位置及任务进度</h2>
         <div class="task-table">
-          <el-table :data="tableData" style="width: 100%" :header-cell-style="setStyle" :header-cell-class-name="setClassName">
+          <el-table :data="tableData" style="width: 100%" :header-cell-style="setStyle" :header-cell-class-name="setClassName" size="mini">
             <el-table-column prop="location" label="位置" align="center"></el-table-column>
             <el-table-column prop="name" label="员工信息" align="center"></el-table-column>
             <el-table-column prop="order" label="工单排序" align="center"></el-table-column>
@@ -58,7 +58,7 @@
     name: "dailyTask",
     data() {
       return {
-        currentPage: 1,
+        currentPage: 1,   //当前页码
         tableData: [
           {
             location: '花园坊A3 G401',
@@ -96,7 +96,7 @@
             order: 'GD822226',
             status: '处理中'
           }
-        ],
+        ], //表单数据
         cards: [
           {
             title: "[ 电脑 ] 资产概况",
@@ -146,7 +146,7 @@
             scrap: 5555,
             storeOut: 666
           },
-        ]
+        ]      //卡片数据
       }
     },
     methods: {
@@ -157,9 +157,11 @@
         console.log(`当前页: ${val}`);
       },
       setStyle:function(row, rowIndex, columnIndex){
+        /**设置表头格式*/
         return { fontWeight:"bold","fontSize":"16px","textAlign":"center"}
       },
       setClassName:function () {
+        /**设置表头类名*/
         return "headerCell"
       }
     },

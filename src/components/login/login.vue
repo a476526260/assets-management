@@ -47,11 +47,11 @@
     name: "login",
     data() {
       return {
-        verification: "",
-        verificationSrc: "",
-        dialogShow:false,
-        msg:"",
-        userInfo:{
+        verification: "",      //验证码
+        verificationSrc: "",   //验证码图片路径
+        dialogShow:false,      //提示框是否显示
+        msg:"",                //提示文字
+        userInfo:{             //用户信息
           userName:'',
           password:'',
           verification:''
@@ -118,9 +118,9 @@
       },
       /**重置*/
       reset: function () {
-        document.getElementById("user").value = '';
-        document.getElementById("password").value = '';
-        document.getElementById("verification").value = '';
+        this.userInfo.userName = '';
+        this.userInfo.password = '';
+        this.userInfo.verification = '';
       },
       showDialog:function (message) {
         this.msg=message;

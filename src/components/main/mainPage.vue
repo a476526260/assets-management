@@ -112,8 +112,8 @@
     name: "mainPage",
     data() {
       return {
-        dialogVisible:false,
-        navIndex: ["1", "2", "3"]
+        dialogVisible:false,         //退出登录框是否显示
+        navIndex: ["1", "2", "3"]    //左侧导航索引
       }
     },
     props:{
@@ -126,17 +126,26 @@
     },
     methods: {
       showDialog:function(){
+        /**显示退出登录提示*/
         this.dialogVisible=true;
       },
       signOut: function () {
+        /**退出登录*/
         this.dialogVisible=false;
         this.$router.push("/");
         localStorage.setItem("userName","");
       },
       modifyPassword:function(){
+        /**修改密码*/
+        var _this = this;
+        this.navIndex.forEach(function (v, i) {
+          _this.$refs.elMenu.close(v);
+        });
+        this.$refs.elMenu.open(3);
         this.$router.push("/mainPage/modify");
       },
-      handleOpen(key, keyPath) {
+      handleOpen(key) {
+        /**打开当前导航，关闭其他导航*/
         var _this = this;
         this.navIndex.forEach(function (v, i) {
           _this.$refs.elMenu.close(v);
