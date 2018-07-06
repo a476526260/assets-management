@@ -42,16 +42,13 @@
           <el-table-column show-overflow-tooltip prop="IP" label="IP" align="center"></el-table-column>
           <el-table-column show-overflow-tooltip prop="ftpUser" label="ftp用户名" align="center"></el-table-column>
           <el-table-column show-overflow-tooltip prop="ftpPassword" label="ftp密码" align="center"></el-table-column>
-          <el-table-column show-overflow-tooltip prop="column" label="目录" align="center">
-
-          </el-table-column>
+          <el-table-column show-overflow-tooltip prop="column" label="目录" align="center"></el-table-column>
           <el-table-column show-overflow-tooltip prop="director" label="负责人" align="center"></el-table-column>
           <el-table-column show-overflow-tooltip prop="email" label="邮箱" align="center"></el-table-column>
           <el-table-column label="操作" align="center">
             <template slot-scope="scope">
               <div class="operation">
-                <span class="delete" @click="showDialog(scope.row)">删除</span>|<span class="modify">修改</span>|<span
-                class="reset">重置密码</span>
+                <span class="delete">删除</span>|<span class="modify">修改</span>|<span class="reset">重置密码</span>
               </div>
             </template>
           </el-table-column>

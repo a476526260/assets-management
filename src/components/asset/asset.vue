@@ -128,7 +128,7 @@
             <span><b>品名:</b>{{detail.name}}</span>
             <span><b>型号:</b>{{detail.model}}</span>
           </div>
-          <div class="infor-line">
+          <div class="infor-line"> 
             <span>
               <b>领用人:</b>
               <div class="f-ctrl">
@@ -270,7 +270,8 @@
             </div>
             <div class="upload">
               <el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/"
-                         accept=".xls" :show-file-list="false" :on-change="fileChange" :before-upload="beforeUpload" :on-success="uploadSuccess"
+                         accept=".xls" :show-file-list="false" :on-change="fileChange" :before-upload="beforeUpload"
+                         :on-success="uploadSuccess"
                          ref="upload">
                 <el-button size="small" type="primary">选择文件</el-button>
               </el-upload>
@@ -294,7 +295,7 @@
     data() {
       return {
         checkAll: false,            //是否全选
-        currentPage: 2,             //当前页码
+        currentPage: 1,             //当前页码
         search: {         //搜索相关选项
           type: '',
           status: '',
@@ -339,7 +340,7 @@
             }
           }
         ],
-        multipleSelection: [],      //选择的结果项目
+        multipleSelection: [],      //选择的数据
         dialogDetailVisible: false, //详细弹出框是否显示
         dialogBatchVisible: false,  //批量操作弹出框是否显示
         dialogImportVisible: false,   //批量导入资产信息弹出框是否显示
@@ -393,8 +394,8 @@
           ],
           areaOptions: ['花园坊A3', '花园坊A4', '花园坊A5', '成都', '北京', '重庆', '其它']
         },
-        fileList: [],
-        fileName:''
+        fileList: [],                //导入文件列表
+        fileName: ''                  //导入文件名
       }
     },
     mounted() {
@@ -405,8 +406,8 @@
         }, 1000);
       });
     },
-    destroyed: function () {
-      /**组件销毁清空计时器*/
+    beforeDestroy: function () {
+      /**组件销毁前清空计时器*/
       var _this = this;
       clearInterval(_this.timer);
     },
@@ -425,7 +426,7 @@
         /**批量导入*/
         this.dialogImportVisible = true;
       },
-      handleCheckAllChange() {
+      handleCheckAllChange: function () {
         /**全选*/
         if (!this.checkAll) {
           this.tableData.forEach(row => {
@@ -437,7 +438,7 @@
           });
         }
       },
-      handleSelectionChange(val) {
+      handleSelectionChange: function (val) {
         /**如果表单项全部选中，全选按钮为选中状态*/
         if (val.length === this.tableData.length) {
           this.checkAll = true
@@ -508,10 +509,10 @@
           this.$refs.upload.abort();
           return false;
         } else {
-          this.fileName=file.name
+          this.fileName = file.name
         }
       },
-      uploadSuccess:function(){
+      uploadSuccess: function () {
         this.showSuccessTip('文件上传成功');
       },
       showErrorTip: function (message) {
@@ -552,26 +553,35 @@
       height: 100%;
       .search-condition {
         padding: 15px 0;
+        .el-form-item {
+          margin-bottom: 0;
+        }
+        .demo-form-inline {
+          display: flex;
+          align-items: center;
+          .el-form-item {
+            width: 13%;
+          }
+          .form-buttons {
+            flex: 1;
+            font-size: 0;
+            button {
+              padding: 12px 15px !important;
+              margin-left: 0;
+              margin-right: 10px;
+              &:last-child {
+                margin-right: 0;
+              }
+            }
+          }
+        }
       }
       .search-result {
-        height: 70%;
-        min-height: 70%;
+        height: 75%;
+        min-height: 75%;
         background: #ffffff;
         box-shadow: 0 0 10px #dddddd;
         border-radius: 5px;
-      }
-      .el-form-item {
-        margin-bottom: 0;
-      }
-      .demo-form-inline {
-        display: flex;
-        align-items: center;
-        .el-form-item {
-          width: 15%;
-        }
-        .form-buttons {
-          width: 40%;
-        }
       }
       .operation {
         color: #ff6633 !important;
@@ -778,15 +788,15 @@
           }
         }
       }
-      .import-file-box{
+      .import-file-box {
         text-align: center;
-        .upload-file{
+        .upload-file {
           display: flex;
           justify-content: center;
-          .fileName{
+          .fileName {
             width: 200px;
             margin-right: 30px;
-            input{
+            input {
               width: 100%;
               height: 32px;
               text-indent: 1em;
@@ -794,7 +804,7 @@
             }
           }
         }
-        .uploadTip{
+        .uploadTip {
           margin-top: 20px;
           color: red;
           font-size: 12px;
