@@ -15,6 +15,7 @@ const PORT = process.env.PORT && Number(process.env.PORT)
 
 const appData=require('../data.json');
 const modify=require('../modify.json');
+const leaders=require('../leaders.json');
 
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -37,6 +38,13 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         res.json({
           errNo:modify.errorNo,
           data:modify.data
+        })
+      });
+
+      app.get('/api/getLeaders',function(req,res){
+        res.json({
+          errNo:leaders.errorNo,
+          data:leaders.data
         })
       });
     },

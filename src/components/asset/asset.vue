@@ -128,7 +128,7 @@
             <span><b>品名:</b>{{detail.name}}</span>
             <span><b>型号:</b>{{detail.model}}</span>
           </div>
-          <div class="infor-line"> 
+          <div class="infor-line">
             <span>
               <b>领用人:</b>
               <div class="f-ctrl">
@@ -395,7 +395,7 @@
           areaOptions: ['花园坊A3', '花园坊A4', '花园坊A5', '成都', '北京', '重庆', '其它']
         },
         fileList: [],                //导入文件列表
-        fileName: ''                  //导入文件名
+        fileName: ''                 //导入文件名
       }
     },
     mounted() {
@@ -498,6 +498,20 @@
 
         }
       },
+      showErrorTip: function (message) {
+        this.$message({
+          showClose: true,
+          message: message,
+          type: 'error'
+        });
+      },
+      showSuccessTip: function (message) {
+        this.$message({
+          showClose: true,
+          message: message,
+          type: 'success'
+        });
+      },
       fileChange: function (file) {
         if (file.name.indexOf("xls") < 0) {
           this.$refs.upload.clearFiles();
@@ -514,20 +528,6 @@
       },
       uploadSuccess: function () {
         this.showSuccessTip('文件上传成功');
-      },
-      showErrorTip: function (message) {
-        this.$message({
-          showClose: true,
-          message: message,
-          type: 'error'
-        });
-      },
-      showSuccessTip: function (message) {
-        this.$message({
-          showClose: true,
-          message: message,
-          type: 'success'
-        });
       },
       handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
@@ -665,6 +665,9 @@
             width: 100%;
           }
         }
+      }
+      .dialog-title {
+        font-size: 20px;
       }
       .batch-operation-box {
         .operation-people {
