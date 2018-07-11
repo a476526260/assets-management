@@ -1,6 +1,6 @@
 <template>
   <div class="asset">
-    <departmentCaption></departmentCaption>
+    <departmentCaption>部门列表</departmentCaption>
     <div class="container">
       <div class="search-condition">
         <el-form :inline="true" :model="search" class="demo-form-inline">
@@ -55,7 +55,7 @@
           :data="tableData"
           size="mini"
           height="100%"
-          tooltip-effect="dark"
+          tooltip-effect="light"
           style="width: 100%"
           :header-cell-style="setHeaderStyle"
           @select-all="handleSelectionChange"

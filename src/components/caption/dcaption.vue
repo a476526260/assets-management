@@ -1,6 +1,8 @@
 <template>
   <div class="caption">
-    <div class="title">部门列表</div>
+    <div class="title">
+      <slot></slot>
+    </div>
   </div>
 </template>
 

@@ -1,6 +1,6 @@
 <template>
   <div class="OB">
-    <departmentCaption></departmentCaption>
+    <departmentCaption>部门列表</departmentCaption>
     <div class="container">
       <div class="search-condition">
         <el-form :inline="true" :model="search" class="demo-form-inline">

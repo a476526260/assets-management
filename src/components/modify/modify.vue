@@ -1,6 +1,6 @@
 <template>
   <div class="modify">
-    <department-caption></department-caption>
+    <department-caption>部门列表</department-caption>
     <div class="container">
       <h2 class="modify-title">修改密码</h2>
       <div class="modify-box">
@@ -8,7 +8,6 @@
           <div class="card-header">
             <span>{{userName}} 密码修改</span>
           </div>
-
           <el-form label-position="left" label-width="60px" :model="modifyData">
             <el-form-item label="旧密码:">
               <el-input v-model="modifyData.oldPassword"></el-input>

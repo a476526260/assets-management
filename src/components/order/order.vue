@@ -1,6 +1,6 @@
 <template>
   <div class="order">
-    <departmentCaption></departmentCaption>
+    <departmentCaption>部门列表</departmentCaption>
     <div class="container">
       <h2 class="order-title">工单系统</h2>
       <div class="demand-submit">
@@ -13,6 +13,12 @@
             <label>设备编号:</label>
             <div class="form-ctrl">
               <el-input v-model="input" class="input" placeholder="请输入设备编号" clearable></el-input>
+            </div>
+          </div>
+          <div class="inline">
+            <label>姓名:</label>
+            <div class="form-ctrl">
+              <el-input v-model="input4" class="input" placeholder="请输入姓名" clearable></el-input>
             </div>
           </div>
           <div class="inline">
@@ -151,6 +157,7 @@
         input: '',      //请输入设备编号
         input2: '',     //请输入对接人员工号
         input3: '',     //工单标题
+        input4: '',     //姓名
         textarea: '',   //内容
         value: '',      //工单类型
         value2: '',     //区域

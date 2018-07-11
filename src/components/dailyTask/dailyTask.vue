@@ -1,6 +1,6 @@
 <template>
   <div class="task">
-    <departmentCaption></departmentCaption>
+    <departmentCaption>部门列表</departmentCaption>
     <div class="container">
       <div class="task-progress">
         <h2 class="task-title">员工当前位置及任务进度</h2>
