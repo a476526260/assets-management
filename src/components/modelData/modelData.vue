@@ -54,7 +54,7 @@
     <el-dialog ref="addModel" title="添加模型" :visible.sync="dialogAddModelVisible" center width="35%">
       <div class="dialog-title" slot="title">添加模型</div>
       <div class="add-model-form">
-        <el-form :inline="true" :model="addModelData" class="demo-form-inline">
+        <el-form :inline="true" :model="addModelData" class="demo-form-inline" label-width="82px">
           <div class="el-form-block">
             <el-form-item label="　　名称:">
               <el-input v-model="addModelData.name" placeholder="名称"></el-input>
@@ -71,7 +71,7 @@
                 <el-option label="模型三" value="模型三"></el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="列表模板:">
+            <el-form-item label=" 列表模板:">
               <el-input v-model="addModelData.listTemplate" placeholder="列表模板"></el-input>
             </el-form-item>
           </div>
@@ -438,7 +438,7 @@
           return false;
         }
         this.showSuccessTip('已成功添加模板');
-        this.$refs.addModel.hide();
+        this.dialogAddModelVisible = false;
       },
       showErrorTip: function (message) {
         this.$message({
@@ -546,10 +546,8 @@
         font-size: 0;
         overflow: hidden;
         .el-form-item {
+          display: flex;
           width: 45%;
-        }
-        .el-select{
-          width: 183px;
         }
       }
       .button-submit {

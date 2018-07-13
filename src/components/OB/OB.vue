@@ -29,7 +29,6 @@
         <el-table
           ref="multipleTable"
           :data="tableData"
-          size="mini"
           height="100%"
           tooltip-effect="light"
           style="width: 100%"

@@ -17,8 +17,7 @@
             <div class="form-input">
               <label class="icon" for="verification"></label>
               <input v-model="userInfo.verification" type="text" id="verification" placeholder="请输入验证码">
-              <span class="verification-code" @click="changeImg($event)" ref="verification"><img
-                src="./verification.png"></span>
+              <span class="verification-code" @click="changeImg($event)" ref="verification"><img :src="verificationSrc"></span>
             </div>
             <div class="form-buttons">
               <button class="logonin" @click="sign">登录</button>
@@ -43,26 +42,29 @@
 <script>
   import axios from 'axios';
   import elDialog from '../dialog/dialog';
+
   export default {
     name: "login",
     data() {
       return {
         verification: "",      //验证码
         verificationSrc: "",   //验证码图片路径
-        dialogShow:false,      //提示框是否显示
-        msg:"",                //提示文字
-        userInfo:{             //用户信息
-          userName:'',
-          password:'',
-          verification:''
+        dialogShow: false,      //提示框是否显示
+        msg: "",                //提示文字
+        userInfo: {             //用户信息
+          userName: '',
+          password: '',
+          verification: ''
         }
       }
     },
     mounted() {
+      this.verificationSrc = this.host + ':' + this.port + '/public/verify';
       let _this = this;
       /** 获取图片验证码*/
+
       this.$nextTick(function () {
-        axios.get('/api/login').then(function (response) {
+        /*axios.get('/api/login').then(function (response) {
           if (response.data.errNo == 0) {
             _this.verification = response.data.data.verification;
             _this.verificationSrc = response.data.data.verificationSrc;
@@ -70,49 +72,82 @@
           }
         }).catch(function (response) {
           console.log(_this);
-        });
+        });*/
       })
     },
     methods: {
       /**点击更换验证码*/
       changeImg: function (event) {
-        let _this = this;
-        axios.get('/api/login').then(function (response) {
-          if (response.data.errNo == 0) {
-            _this.verification = response.data.data.verification;
-            event.target.src = response.data.data.verificationSrc;
-          }
-        }).catch(function (response) {
-          console.log(_this);
-        });
+        event.target.src = 'http://x.gaodun.cn:81/public/verify';
       },
       /**登陆*/
       sign: function () {
         let _this = this;
-        if (this.userInfo.userName === '') {
+        _this.$router.push({"path":"/mainPage/dailyTask"});
+        /*if (this.userInfo.userName === '') {
           _this.showDialog("用户名不能为空");
-          document.getElementById("user").focus();
           return false;
         } else if ((!(this.userInfo.password.length > 5 && this.userInfo.password.length < 17)) || (!(/[a-zA-Z]+(?=\d+)|\d+(?=[a-zA-Z]+)/).test(this.userInfo.password))) {
           _this.showDialog("密码必须为6-16位数字和字母");
-          document.getElementById("password").focus();
-          return false;
-        } else if (this.userInfo.verification != this.verification) {
-          _this.showDialog("验证码不正确");
-          document.getElementById("verification").focus();
           return false;
         }
+         else if (this.userInfo.verification != this.verification) {
+                  _this.showDialog("验证码不正确");
+                  document.getElementById("verification").focus();
+                  return false;
+                }*/
 
-        axios.get('/api/login?username=' + this.userInfo.userName + '&password=' + this.userInfo.password + '').then(function (response) {
-          if (response.data.errNo == 0) {
-            _this.$emit("success",{userName:_this.userInfo.userName});
-            _this.$router.push({"path":"/mainPage/dailyTask"});
-            _this.userInfo.userName = '';
-            _this.userInfo.password = '';
-            _this.userInfo.verification = '';
+        /* _this.$http.jsonp(_this.host+':'+_this.port+'/public/login'+'/verification/'+_this.userInfo.verification).then(function (response) {
+           console.log(response)
+           if (response.data.status == 0) {
+             _this.$router.push({"path":"/mainPage/dailyTask"});
+
+             _this.reset();
+           }else{
+             _this.showDialog(response.data.msg);
+             return false;
+           }
+         })*/
+
+
+       /* axios.post(_this.host + ':' + _this.port + '/public/login', {
+          username: _this.userInfo.userName,
+          password: _this.userInfo.password,
+          verification: _this.userInfo.verification
+        }, {
+          headers: {
+            "Content-Type": "application/json;charset=utf-8",
+            'Access-Control-Allow-Origin': 'x.gaodun.cn:81',
+            'Access-Control-Allow-Credentials':true
+          },
+          withCredentials: true
+        }).then(function (response) {
+          if (response.data.status == 0) {
+            _this.$router.push({"path": "/mainPage/dailyTask"});
+            _this.reset();
+          } else {
+            _this.showDialog(response.data.msg);
+            return false;
           }
         }).catch(function (response) {
-          //console.log(_this);
+          console.log('fafadsa');
+        });*/
+
+        axios.post(_this.host + ':' + _this.port +'/public/login', {
+          username: _this.userInfo.userName,
+          password: _this.userInfo.password,
+          //verification: _this.userInfo.verification
+        }).then(function (response) {
+          console.log(response)
+          if (response.data.status == 0) {
+            //_this.$router.push({"path": "/mainPage/dailyTask"});
+            _this.reset();
+          } else {
+            _this.showDialog(response.data.msg);
+            return false;
+          }
+        }).catch(function (response) {
+          console.log('fafadsa');
         });
 
       },
@@ -122,12 +157,12 @@
         this.userInfo.password = '';
         this.userInfo.verification = '';
       },
-      showDialog:function (message) {
-        this.msg=message;
+      showDialog: function (message) {
+        this.msg = message;
         this.$refs.elDialog.show()
       }
     },
-    components:{
+    components: {
       elDialog
     }
   }
@@ -219,11 +254,16 @@
           }
           span.verification-code {
             position: absolute;
-            width: 70px;
+            width: 100px;
             height: 42px;
             right: 0;
             top: 50%;
             transform: translate3d(0, -50%, 0);
+            img {
+              display: block;
+              width: 100%;
+              height: 42px;
+            }
           }
         }
         .form-buttons {

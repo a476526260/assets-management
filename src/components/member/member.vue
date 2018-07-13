@@ -97,10 +97,8 @@
     <!--添加修改员工信息-->
     <el-dialog title="资产详细" :visible.sync="dialogModifyInforVisible" center width="55%">
       <div class="dialog-title" slot="title">
-        <span v-if="memberDialogStatus==1">添加</span>
-        <span v-if="memberDialogStatus==2">修改</span>
-        <span v-if="memberDialogStatus==3">查看</span>员工信息
-        <span v-if="memberDialogStatus!=1"> {{modifyData.name.text}}(工号：{{modifyData.staffID.text}})</span>
+        <span v-if="memberDialogStatus==1">添加</span><span v-if="memberDialogStatus==2">修改</span><span v-if="memberDialogStatus==3">查看</span>员工信息
+        <span v-if="memberDialogStatus!=1" style=" color:#ff6633;">--{{modifyData.name.text}}(工号：{{modifyData.staffID.text}})</span>
       </div>
       <div class="staff-infor-box">
         <div class="basic-infor">

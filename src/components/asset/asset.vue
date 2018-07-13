@@ -345,7 +345,7 @@
         dialogBatchVisible: false,  //批量操作弹出框是否显示
         dialogImportVisible: false,   //批量导入资产信息弹出框是否显示
         storeType: '',              //出库或入库
-        detail: {          //资产详细表单数据
+        detail: {                   //资产详细表单数据
           number: '',
           name: '戴尔台式电脑',
           model: 'xps200456',
