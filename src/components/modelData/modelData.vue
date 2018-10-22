@@ -1,55 +1,50 @@
 <template>
-  <div class="modelData">
-    <departmentCaption>部门列表</departmentCaption>
-    <div class="container">
-      <div class="model-title">
-        <div class="title-text">模型数据管理<span>* 模型之间可相互关联,模型及字段一旦创建,禁止通过任何方式删除</span></div>
-        <div class="add-model">
-          <el-button type="warning" plain @click="addModel" size="mini">添加模型</el-button>
-        </div>
-      </div>
-
-      <div class="model-wrapper">
-        <el-table
-          :data="tableData"
-          height="100%"
-          tooltip-effect="light"
-          style="width: 100%"
-          :header-cell-style="setHeaderStyle">
-          <el-table-column prop="ID" label="ID" align="center" width="120">
-          </el-table-column>
-          <el-table-column prop="relation" label="别名" align="center">
-          </el-table-column>
-          <el-table-column prop="model" label="关联模型" align="center">
-          </el-table-column>
-          <el-table-column prop="modelName" label="模型名称" align="center">
-          </el-table-column>
-          <el-table-column prop="field" label="字段" show-overflow-tooltip align="center">
-            <template slot-scope="scope">
-              <span v-for="(item,index) in scope.row.field"><span v-if="index!=0">、</span>{{item.fieldC}}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="操作" align="center">
-            <template slot-scope="scope">
-              <span class="modify" @click="modify(scope.row)">修改</span>
-            </template>
-          </el-table-column>
-        </el-table>
-      </div>
-      <!--分页-->
-      <div class="page">
-        <el-pagination
-          background
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page.sync="currentPage"
-          :page-size="100"
-          layout="prev, pager, next, jumper"
-          :total="1000">
-        </el-pagination>
+  <container>
+    <div class="model-title">
+      <div class="title-text">模型数据管理<span>* 模型之间可相互关联,模型及字段一旦创建,禁止通过任何方式删除</span></div>
+      <div class="add-model">
+        <el-button type="warning" plain @click="addModel" size="mini">添加模型</el-button>
       </div>
     </div>
-
+    <div class="model-wrapper">
+      <el-table
+        :data="tableData"
+        height="100%"
+        tooltip-effect="light"
+        style="width: 100%"
+        :header-cell-style="setHeaderStyle">
+        <el-table-column prop="ID" label="ID" align="center" width="120">
+        </el-table-column>
+        <el-table-column prop="relation" label="别名" align="center">
+        </el-table-column>
+        <el-table-column prop="model" label="关联模型" align="center">
+        </el-table-column>
+        <el-table-column prop="modelName" label="模型名称" align="center">
+        </el-table-column>
+        <el-table-column prop="field" label="字段" show-overflow-tooltip align="center">
+          <template slot-scope="scope">
+            <span v-for="(item,index) in scope.row.field"><span v-if="index!=0">、</span>{{item.fieldC}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" align="center">
+          <template slot-scope="scope">
+            <span class="modify" @click="modify(scope.row)">修改</span>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+    <!--分页-->
+    <div class="page">
+      <el-pagination
+        background
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page.sync="currentPage"
+        :page-size="100"
+        layout="prev, pager, next, jumper"
+        :total="1000">
+      </el-pagination>
+    </div>
     <!--添加模型-->
     <el-dialog ref="addModel" title="添加模型" :visible.sync="dialogAddModelVisible" center width="35%">
       <div class="dialog-title" slot="title">添加模型</div>
@@ -86,7 +81,6 @@
         </el-form>
       </div>
     </el-dialog>
-
     <!--模型属性列表对话框-->
     <el-dialog title="模型属性列表" :visible.sync="dialogModelVisible" center width="45%">
       <div class="dialog-title" slot="title">模型【{{modifyData.modelTitle}}】属性列表</div>
@@ -110,7 +104,7 @@
           </el-table-column>
           <el-table-column prop="relation" label="关联属性" align="center">
           </el-table-column>
-          <el-table-column label="操作" align="center">
+          <el-table-column label="操作" align="center" width="140">
             <template slot-scope="scope">
               <div class="operation">
                 <span class="edit" @click="edit(scope)">编辑</span> | <span class="delete" @click="del(scope)">删除</span>
@@ -127,12 +121,11 @@
           :current-page.sync="modifyPage"
           :page-size="100"
           small
-          layout="prev, pager, next, jumper"
+          layout="prev, pager, next, total, jumper"
           :total="1000">
         </el-pagination>
       </div>
     </el-dialog>
-
     <!--添加/修改字段-->
     <el-dialog title="添加/修改字段" :visible.sync="dialogModifyFiledVisible" center width="30%">
       <div class="dialog-title" slot="title">添加/修改字段</div>
@@ -170,14 +163,15 @@
         </el-form>
       </div>
     </el-dialog>
-  </div>
+  </container>
 </template>
 
 <script>
-  import departmentCaption from "@/components/caption/dcaption"
-
+  import container from '@/components/container/container'
+  import tipMixin from "../../assets/script/mixin"
   export default {
     name: "modelData",
+    mixins:[tipMixin],
     data() {
       return {
         currentPage: 1,               //当前页
@@ -381,8 +375,7 @@
       },
       modify: function (data) {
         let _this = this;
-        console.log(data)
-        _this.modifyData.mutiData = [];       //清空前次数据
+        this.modifyData.mutiData = [];       //清空前次数据
         this.dialogModelVisible = true;
         this.modifyData.modelTitle=data.modelName;
         data.field.forEach(function (val, index) {
@@ -407,7 +400,7 @@
           type: 'warning',
           center: true
         }).then(() => {
-          _this.modifyData.mutiData.splice(data.$index,1)
+          this.modifyData.mutiData.splice(data.$index,1)
           this.$message({
             type: 'success',
             message: '删除成功!'
@@ -421,38 +414,24 @@
       },
       addNewModel: function () {
         /**添加新模型*/
-        if (this.addModelData.name == '') {
-          this.showErrorTip('请填写模型名称');
+        if (this.addModelData.name === '') {
+          this.errorTip('请填写模型名称');
           return false;
-        } else if (this.addModelData.tableName == '') {
-          this.showErrorTip('请填写模型别名');
+        } else if (this.addModelData.tableName === '') {
+          this.errorTip('请填写模型别名');
           return false;
-        } else if (this.addModelData.relation == '') {
-          this.showErrorTip('请选择关联模型');
+        } else if (this.addModelData.relation === '') {
+          this.errorTip('请选择关联模型');
           return false;
-        } else if (this.addModelData.listTemplate == '') {
-          this.showErrorTip('请填写列表模型');
+        } else if (this.addModelData.listTemplate === '') {
+          this.errorTip('请填写列表模型');
           return false;
-        } else if (this.addModelData.detailTemplate == '') {
-          this.showErrorTip('请填写详细模板');
+        } else if (this.addModelData.detailTemplate === '') {
+          this.errorTip('请填写详细模板');
           return false;
         }
-        this.showSuccessTip('已成功添加模板');
+        this.successTip('已成功添加模板');
         this.dialogAddModelVisible = false;
-      },
-      showErrorTip: function (message) {
-        this.$message({
-          showClose: true,
-          message: message,
-          type: 'error'
-        });
-      },
-      showSuccessTip: function (message) {
-        this.$message({
-          showClose: true,
-          message: message,
-          type: 'success'
-        });
       },
       handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
@@ -465,110 +444,99 @@
         return {"fontSize": "16px", "background": "#f9f9f9"}
       },
     },
-    components: {
-      departmentCaption
+    components:{
+      container,
     }
   }
 </script>
 
 <style lang="scss" scoped>
-  @import "../../assets/scss/layout";
-
-  .modelData {
-    @include fullScreen;
-    .container {
-      padding-left: 90px;
-      padding-right: 50px;
-      height: 100%;
-    }
-    .model-title {
-      padding: 20px 0;
-      overflow: hidden;
-      .title-text {
-        float: left;
-        line-height: 30px;
-        font-size: 16px;
-        color: #333333;
-        span {
-          margin-left: 20px;
-          font-size: 12px;
-          color: #ff6633;
-        }
-      }
-      .add-model {
-        float: right;
-        margin-right: 20px;
+  .model-title {
+    padding: 20px 0;
+    overflow: hidden;
+    .title-text {
+      float: left;
+      line-height: 30px;
+      font-size: 16px;
+      color: #333333;
+      span {
+        margin-left: 20px;
+        font-size: 12px;
+        color: #ff6633;
       }
     }
-    .model-wrapper {
-      height: 80%;
-      min-height: 80%;
-      background: #ffffff;
-      box-shadow: 0 0 10px #dddddd;
-      border-radius: 5px;
-      .modify {
+    .add-model {
+      float: right;
+      margin-right: 20px;
+    }
+  }
+  .model-wrapper {
+    height: 80%;
+    min-height: 80%;
+    background: #ffffff;
+    box-shadow: 0 0 10px #dddddd;
+    border-radius: 5px;
+    .modify {
+      display: inline-block;
+      padding: 5px 10px;
+      font-size: 14px;
+      color: #ff6633;
+      cursor: pointer;
+    }
+  }
+  .dialog-title {
+    font-size: 20px;
+  }
+  .dialog-subtitle {
+    line-height: 20px;
+    font-size: 14px;
+    color: #666666;
+  }
+  .modify-targets {
+    margin-top: 20px;
+    .operation {
+      color: #ff6633;
+      span {
         display: inline-block;
-        padding: 5px 10px;
+        padding: 4px;
         font-size: 14px;
         color: #ff6633;
         cursor: pointer;
       }
     }
-    .dialog-title {
-      font-size: 20px;
-    }
-    .dialog-subtitle {
-      line-height: 20px;
-      font-size: 14px;
-      color: #666666;
-    }
-    .modify-targets {
-      margin-top: 20px;
-      .operation {
-        color: #ff6633;
-        span {
-          display: inline-block;
-          padding: 4px;
-          font-size: 14px;
-          color: #ff6633;
-          cursor: pointer;
-        }
-      }
-    }
-    .page {
-      margin-top: 20px;
-      text-align: center;
-    }
-    .add-model-form {
-      .el-form-block {
+  }
+  .page {
+    margin-top: 20px;
+    text-align: center;
+  }
+  .add-model-form {
+    .el-form-block {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0;
+      overflow: hidden;
+      .el-form-item {
         display: flex;
-        justify-content: space-between;
-        font-size: 0;
-        overflow: hidden;
-        .el-form-item {
-          display: flex;
-          width: 45%;
-        }
-      }
-      .button-submit {
-        width: 200px;
-        margin: 20px auto 0;
-        button {
-          width: 100%;
-        }
+        width: 45%;
       }
     }
-    .modify-filed-form{
-      width: 320px;
-      padding: 0 30px;
-      margin: 0 auto;
-      .submit-botton{
-        text-align: center;
-        button{
-          width: 150px;
-        }
+    .button-submit {
+      width: 200px;
+      margin: 20px auto 0;
+      button {
+        width: 100%;
       }
     }
   }
-
+  .modify-filed-form{
+    width: 320px;
+    padding: 0 30px;
+    margin: 0 auto;
+    .submit-botton{
+      text-align: center;
+      button{
+        width: 150px;
+      }
+    }
+  }
 </style>

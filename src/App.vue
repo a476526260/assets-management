@@ -5,9 +5,8 @@
 </template>
 
 <script>
-  import Vue from 'vue'
   import login from './components/login/login'
-  import mainPage from './components/main/mainPage'
+  import main from './components/main/main'
   export default {
     name: 'App',
     data(){
@@ -15,7 +14,9 @@
         userName:"",
       }
     },
-    created(){},
+    created(){
+      //console.log(this.$store.state.show)
+    },
     methods:{
       loginSuccess:function (e) {
         this.userName=e.userName;
@@ -25,7 +26,7 @@
     },
     components:{
       login,
-      mainPage
+      main
     }
 
   }

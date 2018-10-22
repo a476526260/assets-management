@@ -1,0 +1,9 @@
+.grid-col{
+  position: relative;
+  min-height: 1px;
+  float: left;
+  @for $i from 1 through 12 {
+    &.grid-col-#{$i} { width:1/(12/$i)*100*1%}
+  }
+}
+

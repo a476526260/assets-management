@@ -1,61 +1,58 @@
 <template>
-  <div class="task">
-    <departmentCaption>部门列表</departmentCaption>
-    <div class="container">
-      <div class="task-progress">
-        <h2 class="task-title">员工当前位置及任务进度</h2>
-        <div class="task-table">
-          <el-table :data="tableData" style="width: 100%" :header-cell-style="setStyle" :header-cell-class-name="setClassName" size="mini">
-            <el-table-column prop="location" label="位置" align="center"></el-table-column>
-            <el-table-column prop="name" label="员工信息" align="center"></el-table-column>
-            <el-table-column prop="order" label="工单排序" align="center"></el-table-column>
-            <el-table-column prop="status" label="状态" align="center">
-              <template slot-scope="scope">
-                <el-tag :type="scope.row.status === '处理中' ? '' : 'danger'" disable-transitions>
-                  {{scope.row.status}}
-                </el-tag>
-              </template>
-            </el-table-column>
-          </el-table>
-        </div>
-        <div class="assets-card-list">
-          <div class="assets-cart-item" v-for="(card,index) in cards" :key='index'>
-            <el-card class="box-card">
-              <div slot="header" class="card-header">
-                <span>{{card.title}}</span>
-              </div>
-              <div class="card-inf">
-                <p>已入库:<span>{{card.storeIn}}</span></p>
-                <p>可出库:<span>{{card.mayOut}}</span></p>
-                <p>维修中:<span>{{card.repair}}</span></p>
-                <p>已报废:<span>{{card.scrap}}</span></p>
-                <p>已出库:<span>{{card.storeOut}}</span></p>
-              </div>
-            </el-card>
+  <container>
+    <h2 class="task-title">员工当前位置及任务进度</h2>
+    <div class="task-table">
+      <el-table :data="tableData" style="width: 100%" :header-cell-style="setStyle" :header-cell-class-name="setClassName" size="mini">
+        <el-table-column prop="location" label="位置" align="center"></el-table-column>
+        <el-table-column prop="name" label="员工信息" align="center"></el-table-column>
+        <el-table-column prop="order" label="工单排序" align="center"></el-table-column>
+        <el-table-column prop="status" label="状态" align="center">
+          <template slot-scope="scope">
+            <el-tag :type="scope.row.status === '处理中' ? '' : 'danger'" disable-transitions>
+              {{scope.row.status}}
+            </el-tag>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+    <div class="assets-card-list">
+      <div class="assets-cart-item" v-for="(card,index) in cards" :key='index'>
+        <el-card class="box-card">
+          <div slot="header" class="card-header">
+            <span>{{card.title}}</span>
           </div>
-        </div>
-
-        <!--分页-->
-        <div class="page">
-          <el-pagination
-            background
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page.sync="currentPage"
-            :page-size="100"
-            layout="prev, pager, next, jumper"
-            :total="1000">
-          </el-pagination>
-        </div>
+          <div class="card-inf">
+            <p>已入库:<span>{{card.storeIn}}</span></p>
+            <p>可出库:<span>{{card.mayOut}}</span></p>
+            <p>维修中:<span>{{card.repair}}</span></p>
+            <p>已报废:<span>{{card.scrap}}</span></p>
+            <p>已出库:<span>{{card.storeOut}}</span></p>
+          </div>
+        </el-card>
       </div>
     </div>
-  </div>
+
+    <!--分页-->
+    <div class="page">
+      <el-pagination
+        background
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page.sync="currentPage"
+        :page-size="100"
+        layout="prev, pager, next, total, jumper"
+        :total="1000">
+      </el-pagination>
+    </div>
+  </container>
 </template>
 
 <script>
-  import departmentCaption from "@/components/caption/dcaption"
+  import container from '@/components/container/container'
+  import tipMixin from "../../assets/script/mixin"
   export default {
     name: "dailyTask",
+    mixins:[tipMixin],
     data() {
       return {
         currentPage: 1,   //当前页码
@@ -165,68 +162,56 @@
         return "headerCell"
       }
     },
-    props: {
-
-    },
     components:{
-      departmentCaption
+      container,
     }
   }
 </script>
 
 <style lang="scss" scoped>
-  @import "../../assets/scss/layout";
-
-  .task {
-    @include fullScreen;
-    .container {
-      padding-left: 90px;
-      padding-right: 50px;
-      .task-progress {
-        .task-title {
-          padding: 20px 0;
-          font-size: 16px;
-          color: #333333;
-          line-height: 22px;
-        }
-        .task-table {
-          padding: 0 20px;
-          background: #ffffff;
-        }
-        .assets-card-list{
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: space-between;
-          .assets-cart-item{
-            width: 30%;
-            margin-top: 30px;
-            .card-header{
-              font-size: 16px;
-              text-align: center;
-            }
-            .card-inf{
-              p{
-                font-size: 14px;
-                line-height: 24px;
-                color: #999999;
-                overflow: hidden;
-                span{
-                  float: right;
-                  color: #333333;
-                }
-              }
-            }
+  .task-title {
+    padding: 20px 0;
+    font-size: 16px;
+    color: #333333;
+    line-height: 22px;
+  }
+  .task-table {
+    padding: 0 20px;
+    background: #ffffff;
+    box-shadow: 0 0 10px #dddddd;
+    border-radius: 5px;
+  }
+  .assets-card-list{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    .assets-cart-item{
+      width: 30%;
+      margin-top: 30px;
+      .card-header{
+        font-size: 16px;
+        text-align: center;
+      }
+      .card-inf{
+        p{
+          font-size: 14px;
+          line-height: 24px;
+          color: #999999;
+          overflow: hidden;
+          span{
+            float: right;
+            color: #333333;
           }
         }
-        .page{
-          margin-top: 20px;
-          text-align: center;
-          .el-pagination{
-            .btn-prev{
-              background: none!important;
-            }
-          }
-        }
+      }
+    }
+  }
+  .page{
+    margin-top: 20px;
+    text-align: center;
+    .el-pagination{
+      .btn-prev{
+        background: none!important;
       }
     }
   }

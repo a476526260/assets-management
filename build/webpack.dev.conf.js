@@ -13,9 +13,9 @@ const portfinder = require('portfinder')
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
-const appData=require('../data.json');
+/*const appData=require('../data.json');
 const modify=require('../modify.json');
-const leaders=require('../leaders.json');
+const leaders=require('../leaders.json');*/
 
 const devWebpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -26,28 +26,6 @@ const devWebpackConfig = merge(baseWebpackConfig, {
 
   // these devServer options should be customized in /config/index.js
   devServer: {
-    before(app){
-      app.get('/api/login',function(req,res){
-        res.json({
-          errNo:appData.errorNo,
-          data:appData.data
-        })
-      });
-
-      app.get('/api/modifyPassword',function(req,res){
-        res.json({
-          errNo:modify.errorNo,
-          data:modify.data
-        })
-      });
-
-      app.get('/api/getLeaders',function(req,res){
-        res.json({
-          errNo:leaders.errorNo,
-          data:leaders.data
-        })
-      });
-    },
     clientLogLevel: 'warning',
     historyApiFallback: {
       rewrites: [

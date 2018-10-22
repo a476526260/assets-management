@@ -1,45 +1,41 @@
 <template>
-  <div class="property">
-    <departmentCaption>部门列表</departmentCaption>
-    <div class="container">
-      <div class="property-title">
-        <div class="title-text">属性管理<span>* 属性创建好后,禁止任何形式的删除,属性值可以删除.</span></div>
-        <div class="add-property">
-          <el-button type="warning" plain @click="addProperty" size="mini">添加属性</el-button>
-        </div>
+  <container>
+    <div class="property-title">
+      <div class="title-text">属性管理<span>* 属性创建好后,禁止任何形式的删除,属性值可以删除.</span></div>
+      <div class="add-property">
+        <el-button type="warning" plain @click="showaddProperty" size="mini">添加属性</el-button>
       </div>
-
-      <div class="property-wrapper">
-        <el-table
-          :data="tableData"
-          height="100%"
-          style="width: 100%"
-          :header-cell-style="setHeaderStyle">
-          <el-table-column prop="ID" label="ID" align="center">
-          </el-table-column>
-          <el-table-column prop="name" label="名称" align="center">
-          </el-table-column>
-          <el-table-column prop="relation" label="别名" align="center">
-          </el-table-column>
-          <el-table-column label="操作" align="center">
-            <template slot-scope="scope">
-              <span class="modify" @click="modifyProp(scope)">修改</span>
-            </template>
-          </el-table-column>
-        </el-table>
-      </div>
-      <!--分页-->
-      <div class="page">
-        <el-pagination
-          background
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page.sync="currentPage"
-          :page-size="100"
-          layout="prev, pager, next, jumper"
-          :total="1000">
-        </el-pagination>
-      </div>
+    </div>
+    <div class="property-wrapper">
+      <el-table
+        :data="tableData"
+        height="100%"
+        style="width: 100%"
+        :header-cell-style="setHeaderStyle">
+        <el-table-column prop="ID" label="ID" align="center">
+        </el-table-column>
+        <el-table-column prop="name" label="名称" align="center">
+        </el-table-column>
+        <el-table-column prop="relation" label="别名" align="center">
+        </el-table-column>
+        <el-table-column label="操作" align="center">
+          <template slot-scope="scope">
+            <span class="modify" @click="modifyProp(scope)">修改</span>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+    <!--分页-->
+    <div class="page">
+      <el-pagination
+        background
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page.sync="currentPage"
+        :page-size="100"
+        layout="prev, pager, next, total, jumper"
+        :total="1000">
+      </el-pagination>
     </div>
     <!--修改属性-->
     <el-dialog title="属性列表修改" :visible.sync="dialogModifyPropertyVisible" center width="45%"
@@ -100,13 +96,12 @@
             @current-change="handleCurrentChange"
             :current-page.sync="modifyDataPage"
             :page-size="100"
-            layout="prev, pager, next, jumper"
+            layout="prev, pager, next, total, jumper"
             :total="1000">
           </el-pagination>
         </div>
       </div>
     </el-dialog>
-
     <!--修改属性选项-->
     <el-dialog title="修改属性选项值" :visible.sync="dialogModifyOptionsVisible" center width="30%">
       <div class="dialog-title" slot="title">修改属性选项</div>
@@ -127,7 +122,6 @@
         </el-form>
       </div>
     </el-dialog>
-
     <!--添加属性-->
     <el-dialog title="增加属性" :visible.sync="dialogAddPropertyVisible" center width="40%">
       <div class="dialog-title" slot="title">增加属性</div>
@@ -145,17 +139,17 @@
         </el-form>
       </div>
     </el-dialog>
-  </div>
+  </container>
 </template>
 
 <script>
-  import departmentCaption from "@/components/caption/dcaption"
-
+  import tipMixin from "../../assets/script/mixin"
   export default {
     name: "property",
+    mixins:[tipMixin],
     data() {
       return {
-        currentPage: 2,                              //当前分页
+        currentPage: 1,                              //当前分页
         tableData: [
           {
             ID: '1',
@@ -302,20 +296,20 @@
       }
     },
     methods: {
-      addProperty: function () {
+      showaddProperty: function () {
         /**显示增加属性弹窗*/
         this.dialogAddPropertyVisible = true;
       },
       addPropertyFunc: function () {
         /**增加属性*/
-        if (this.addPropertyData.name == '') {
-          this.showErrorTip('请填写属性名称！');
+        if (this.addPropertyData.name === '') {
+          this.errorTip('请填写属性名称！');
           return false;
-        } else if (this.addPropertyData.relation == '') {
-          this.showErrorTip('请填写属性别名！');
+        } else if (this.addPropertyData.relation === '') {
+          this.errorTip('请填写属性别名！');
           return false;
         }
-        var len = this.tableData.length;
+        let len = this.tableData.length;
         this.tableData.push({
           ID: len + 1,
           name: this.addPropertyData.name,
@@ -335,14 +329,14 @@
       addPropertyThis: function () {
         /**添加属性选项*/
         this.modifyProperty.data.push({
-          ID: this.modifyProperty.data.length == 0 ? 1 : this.modifyProperty.data[this.modifyProperty.data.length - 1]['ID'] + 1,    //被添加选项ID+1
+          ID: this.modifyProperty.data.length === 0 ? 1 : this.modifyProperty.data[this.modifyProperty.data.length - 1]['ID'] + 1,    //被添加选项ID+1
           property: this.addPropertyOption.prop,
           propertyVal: this.addPropertyOption.propVal,
           level: this.addPropertyOption.level
         })
       },
       clearObjVal: function (obj) {
-        for (var prop in obj) {
+        for (let prop in obj) {
           obj[prop] = '';
         }
       },
@@ -356,17 +350,17 @@
       },
       modifyOptionFunc: function () {
         /**修改属性选项*/
-        if (this.modifyOptionData.prop == '') {
-          this.showErrorTip('请填写属性名');
+        if (this.modifyOptionData.prop === '') {
+          this.errorTip('请填写属性名');
           return false;
-        } else if (this.modifyOptionData.propVal == '') {
-          this.showErrorTip('请填写属性值');
+        } else if (this.modifyOptionData.propVal === '') {
+          this.errorTip('请填写属性值');
           return false;
-        } else if (this.modifyOptionData.level == '') {
-          this.showErrorTip('请填写上级');
+        } else if (this.modifyOptionData.level === '') {
+          this.errorTip('请填写上级');
           return false;
         }
-        this.showSuccessTip('修改成功');
+        this.successTip('修改成功');
         this.modifyProperty.data[this.modifyOptionIndex].property = this.modifyOptionData.prop;
         this.modifyProperty.data[this.modifyOptionIndex].propertyVal = this.modifyOptionData.propVal;
         this.modifyProperty.data[this.modifyOptionIndex].level = this.modifyOptionData.level;
@@ -375,23 +369,16 @@
       },
       delThis: function (data) {
         /**删除属性选项*/
-        let _this = this;
         this.$confirm('删除该属性选项, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning',
           center: true
         }).then(() => {
-          _this.modifyProperty.data.splice(data.$index, 1)
-          this.$message({
-            type: 'success',
-            message: '删除成功!'
-          });
+          this.modifyProperty.data.splice(data.$index, 1);
+          this.successTip('删除成功！')
         }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });
+          this.errorTip('取消删除！')
         });
       },
       closeModifyPropertyFunc: function () {
@@ -408,136 +395,109 @@
         /**设置表头样式*/
         return {"fontSize": "16px", "background": "#f9f9f9"}
       },
-      showErrorTip: function (message) {
-        this.$message({
-          showClose: true,
-          message: message,
-          type: 'error'
-        });
-      },
-      showSuccessTip: function (message) {
-        this.$message({
-          showClose: true,
-          message: message,
-          type: 'success'
-        });
-      },
-    },
-    components: {
-      departmentCaption
     }
   }
 </script>
 
 <style lang="scss" scoped>
-  @import "../../assets/scss/layout";
-
-  .property {
-    @include fullScreen;
-    .container {
-      padding-left: 90px;
-      padding-right: 50px;
-      height: 100%;
-      .property-title {
-        padding: 20px 0;
-        overflow: hidden;
-        .title-text {
-          float: left;
-          line-height: 30px;
-          font-size: 16px;
-          color: #333333;
-          span {
-            margin-left: 20px;
-            font-size: 12px;
-            color: #ff6633;
+  .property-title {
+    padding: 20px 0;
+    overflow: hidden;
+    .title-text {
+      float: left;
+      line-height: 30px;
+      font-size: 16px;
+      color: #333333;
+      span {
+        margin-left: 20px;
+        font-size: 12px;
+        color: #ff6633;
+      }
+    }
+    .add-property {
+      float: right;
+      margin-right: 20px;
+    }
+  }
+  .property-wrapper {
+    height: 80%;
+    min-height: 80%;
+    background: #ffffff;
+    box-shadow: 0 0 10px #dddddd;
+    border-radius: 5px;
+    .modify {
+      display: inline-block;
+      padding: 5px 10px;
+      font-size: 14px;
+      color: #ff6633;
+      cursor: pointer;
+    }
+  }
+  .page {
+    margin-top: 20px;
+    text-align: center;
+  }
+  .dialog-title {
+    font-size: 20px;
+  }
+  .modify-property-form {
+    .add-property {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .add-property-title {
+        width: 80px;
+        font-size: 14px;
+        color: #000000;
+        font-weight: bold;
+      }
+      .add-property-form {
+        flex: 1;
+        .el-form {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          .el-form-item {
+            display: flex;
+            margin-bottom: 0;
           }
         }
-        .add-property {
-          float: right;
-          margin-right: 20px;
-        }
       }
-      .property-wrapper {
-        height: 80%;
-        min-height: 80%;
-        background: #ffffff;
-        box-shadow: 0 0 10px #dddddd;
-        border-radius: 5px;
-        .modify {
+    }
+    .modify-property {
+      margin-top: 20px;
+      .operation {
+        color: #ff6633;
+        span {
           display: inline-block;
-          padding: 5px 10px;
+          padding: 4px;
           font-size: 14px;
           color: #ff6633;
           cursor: pointer;
         }
       }
-      .page {
-        margin-top: 20px;
-        text-align: center;
-      }
     }
-    .dialog-title {
-      font-size: 20px;
+    .page {
+      margin-top: 20px;
+      text-align: center;
     }
-    .modify-property-form {
-      .add-property {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        .add-property-title {
-          width: 80px;
-          font-size: 14px;
-          color: #000000;
-          font-weight: bold;
-        }
-        .add-property-form {
-          flex: 1;
-          .el-form {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            .el-form-item {
-              display: flex;
-              margin-bottom: 0;
-            }
-          }
-        }
-      }
-      .modify-property {
-        margin-top: 20px;
-        .operation {
-          color: #ff6633;
-          span {
-            display: inline-block;
-            padding: 4px;
-            font-size: 14px;
-            color: #ff6633;
-            cursor: pointer;
-          }
-        }
-      }
-      .page {
-        margin-top: 20px;
-        text-align: center;
-      }
-    }
-    .add-property-form {
-      width: 60%;
+  }
+  .add-property-form {
+    width: 60%;
+    margin: 0 auto;
+    .add-button {
+      display: block;
+      width: 150px;
       margin: 0 auto;
-      .add-button {
-        display: block;
-        width: 150px;
-        margin: 0 auto;
-      }
     }
-    .modify-prop-option {
-      width: 60%;
+  }
+  .modify-prop-option {
+    width: 60%;
+    margin: 0 auto;
+    .modify-button {
+      display: block;
+      width: 120px;
       margin: 0 auto;
-      .modify-button {
-        display: block;
-        width: 120px;
-        margin: 0 auto;
-      }
     }
   }
 </style>

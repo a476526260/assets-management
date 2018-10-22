@@ -4,20 +4,23 @@
       <div class="login-warpper">
         <div class="logo"><img src="./logo.png"></div>
         <div class="login-form">
-          <h2 class="title">IT部资产管理系统</h2>
+          <h2 class="title">管理系统</h2>
           <div class="form-area">
             <div class="form-input">
               <label class="icon" for="user"></label>
-              <input v-model="userInfo.userName" type="text" id="user" placeholder="请使用邮箱、手机、工号">
+              <input v-model="userInfo.userName" type="text" ref="user" id="user" placeholder="请使用邮箱、手机、工号">
             </div>
             <div class="form-input">
               <label class="icon" for="password"></label>
-              <input v-model="userInfo.password" type="password" id="password" placeholder="密码长度为6-16位，字母+数字">
+              <input v-model="userInfo.password" type="password" ref="password" id="password"
+                     placeholder="密码长度为6-16位，字母+数字">
             </div>
             <div class="form-input">
               <label class="icon" for="verification"></label>
-              <input v-model="userInfo.verification" type="text" id="verification" placeholder="请输入验证码">
-              <span class="verification-code" @click="changeImg($event)" ref="verification"><img :src="verificationSrc"></span>
+              <input v-model="userInfo.verification" type="text" ref="codes" id="verification" placeholder="请输入验证码">
+              <span class="verification-code" @click="changeImg($event)" ref="verification">
+                <img ref="code" :src="verificationSrc">
+              </span>
             </div>
             <div class="form-buttons">
               <button class="logonin" @click="sign">登录</button>
@@ -26,29 +29,25 @@
           </div>
         </div>
         <div class="slogan">
-          <div class="QrCode">
-            <span class="image"><img src="./QRcode.jpg"></span>
-            <span class="text">手机版下载地址</span>
-          </div>
           <div class="slogan-ch">选择，成就未来</div>
           <div class="slogan-en">CHOICE, ACHIEVEMENTS OF THE FUTURE</div>
         </div>
       </div>
-      <elDialog :message="msg" ref="elDialog"></elDialog>
     </div>
   </transition>
 </template>
 
 <script>
   import axios from 'axios';
-  import elDialog from '../dialog/dialog';
-
+  import * as ajax from '../../assets/script/ajaxApi'
+  import tipMixin from "../../assets/script/mixin"
   export default {
     name: "login",
+    mixins:[tipMixin],
     data() {
       return {
-        verification: "",      //验证码
-        verificationSrc: "",   //验证码图片路径
+        verification: "",       //验证码
+        verificationSrc: "",    //验证码图片路径
         dialogShow: false,      //提示框是否显示
         msg: "",                //提示文字
         userInfo: {             //用户信息
@@ -59,111 +58,73 @@
       }
     },
     mounted() {
-      this.verificationSrc = this.host + ':' + this.port + '/public/verify';
-      let _this = this;
       /** 获取图片验证码*/
-
+      let _this = this;
       this.$nextTick(function () {
-        /*axios.get('/api/login').then(function (response) {
-          if (response.data.errNo == 0) {
-            _this.verification = response.data.data.verification;
-            _this.verificationSrc = response.data.data.verificationSrc;
-            _this.$refs.verification.children[0].src = _this.verificationSrc;
+        this.$refs.user.focus();
+        this.verificationSrc = this.host + '/public/verify?' + new Date().getTime();
+        document.addEventListener('keyup', function (e) {
+          if (e.keyCode === 13) {
+            _this.sign();
           }
-        }).catch(function (response) {
-          console.log(_this);
-        });*/
+        }, false)
       })
     },
     methods: {
       /**点击更换验证码*/
       changeImg: function (event) {
-        event.target.src = 'http://x.gaodun.cn:81/public/verify';
+        event.target.src = this.host + '/public/verify?' + new Date().getTime();
       },
       /**登陆*/
       sign: function () {
         let _this = this;
-        _this.$router.push({"path":"/mainPage/dailyTask"});
-        /*if (this.userInfo.userName === '') {
-          _this.showDialog("用户名不能为空");
+        if (this.userInfo.userName === '') {
+          this.errorTip("用户名不能为空");
+          this.$refs.user.focus();
           return false;
-        } else if ((!(this.userInfo.password.length > 5 && this.userInfo.password.length < 17)) || (!(/[a-zA-Z]+(?=\d+)|\d+(?=[a-zA-Z]+)/).test(this.userInfo.password))) {
-          _this.showDialog("密码必须为6-16位数字和字母");
+        } else if ((!(this.userInfo.password.length > 0 && this.userInfo.password.length < 17)) /*|| (!(/[a-zA-Z]+(?=\d+)|\d+(?=[a-zA-Z]+)/).test(this.userInfo.password))*/) {
+          this.errorTip("密码必须为6-16位数字和字母");
+          this.$refs.password.focus();
+          return false;
+        } else if (this.userInfo.verification === '') {
+          this.errorTip("验证码不能为空");
+          this.$refs.codes.focus();
           return false;
         }
-         else if (this.userInfo.verification != this.verification) {
-                  _this.showDialog("验证码不正确");
-                  document.getElementById("verification").focus();
-                  return false;
-                }*/
 
-        /* _this.$http.jsonp(_this.host+':'+_this.port+'/public/login'+'/verification/'+_this.userInfo.verification).then(function (response) {
-           console.log(response)
-           if (response.data.status == 0) {
-             _this.$router.push({"path":"/mainPage/dailyTask"});
-
-             _this.reset();
-           }else{
-             _this.showDialog(response.data.msg);
-             return false;
-           }
-         })*/
-
-
-       /* axios.post(_this.host + ':' + _this.port + '/public/login', {
-          username: _this.userInfo.userName,
-          password: _this.userInfo.password,
-          verification: _this.userInfo.verification
-        }, {
-          headers: {
-            "Content-Type": "application/json;charset=utf-8",
-            'Access-Control-Allow-Origin': 'x.gaodun.cn:81',
-            'Access-Control-Allow-Credentials':true
-          },
-          withCredentials: true
-        }).then(function (response) {
-          if (response.data.status == 0) {
-            _this.$router.push({"path": "/mainPage/dailyTask"});
-            _this.reset();
+        ajax.fetch_post(this.host + '/api/login', {
+          username: this.userInfo.userName,
+          password: this.userInfo.password,
+          verification: this.userInfo.verification,
+        }).then(res => {
+          if (res.data.code === 200) {
+            localStorage.setItem('token', res.headers.token);
+            axios.defaults.headers.common['token'] = localStorage.getItem('token');
+            this.successTip("登录成功！");
+            this.$router.push({name: "order", params: {userId: _this.userInfo.userName}});
           } else {
-            _this.showDialog(response.data.msg);
+            this.errorTip(res.data.info);
+            this.$refs.code.src = _this.host + '/public/verify?' + new Date().getTime();
+            this.$refs.codes.focus();
+            this.userInfo.verification = '';
             return false;
           }
-        }).catch(function (response) {
-          console.log('fafadsa');
-        });*/
-
-        axios.post(_this.host + ':' + _this.port +'/public/login', {
-          username: _this.userInfo.userName,
-          password: _this.userInfo.password,
-          //verification: _this.userInfo.verification
-        }).then(function (response) {
-          console.log(response)
-          if (response.data.status == 0) {
-            //_this.$router.push({"path": "/mainPage/dailyTask"});
-            _this.reset();
-          } else {
-            _this.showDialog(response.data.msg);
-            return false;
-          }
-        }).catch(function (response) {
-          console.log('fafadsa');
+        }).catch(res => {
+          console.log(res);
         });
-
       },
       /**重置*/
       reset: function () {
-        this.userInfo.userName = '';
-        this.userInfo.password = '';
-        this.userInfo.verification = '';
-      },
-      showDialog: function (message) {
-        this.msg = message;
-        this.$refs.elDialog.show()
+        for (let prop in this.userInfo) {
+          this.userInfo[prop] = '';
+        }
       }
     },
-    components: {
-      elDialog
+    beforeRouteUpdate: function (to, from, next) {
+      if (to.name === 'login') {
+        this.$refs.code.src = this.host + '/public/verify?' + new Date().getTime();
+        next()
+      }
     }
   }
 </script>

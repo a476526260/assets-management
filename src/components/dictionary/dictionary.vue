@@ -1,12 +1,14 @@
 <template>
-    <div class="dictionary">
-      <h2>字典</h2>
-    </div>
+  <container></container>
 </template>
 
 <script>
+  import container from '@/components/container/container'
   export default {
-    name: "dictionary"
+    name: "dictionary",
+    components:{
+      container,
+    }
   }
 </script>
 

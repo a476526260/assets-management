@@ -1,30 +1,17 @@
 <template>
-  <div class="api">
-    <departmentCaption>部门列表</departmentCaption>
-    <div class="container"></div>
-  </div>
+  <container></container>
 </template>
 
 <script>
-  import departmentCaption from "@/components/caption/dcaption"
-
+  import container from '@/components/container/container'
   export default {
     name: "API",
-    comments:{
-      departmentCaption
+    components:{
+      container,
     }
   }
 </script>
 
 <style lang="scss" scoped>
-  @import "../../assets/scss/layout";
 
-  .api {
-    @include fullScreen;
-    .container {
-      padding-left: 90px;
-      padding-right: 50px;
-      height: 100%;
-    }
-  }
 </style>
