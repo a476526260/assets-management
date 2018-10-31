@@ -48,7 +48,7 @@
       return {
         verification: "",       //验证码
         verificationSrc: "",    //验证码图片路径
-        dialogShow: false,      //提示框是否显示
+        dialogShow: false,      //对话框框是否显示
         msg: "",                //提示文字
         userInfo: {             //用户信息
           userName: '',
@@ -62,7 +62,7 @@
       let _this = this;
       this.$nextTick(function () {
         this.$refs.user.focus();
-        this.verificationSrc = this.host + '/public/verify?' + new Date().getTime();
+        this.verificationSrc = 'http://test.o.gaodun.com/api/login?' + new Date().getTime();
         document.addEventListener('keyup', function (e) {
           if (e.keyCode === 13) {
             _this.sign();
@@ -73,7 +73,7 @@
     methods: {
       /**点击更换验证码*/
       changeImg: function (event) {
-        event.target.src = this.host + '/public/verify?' + new Date().getTime();
+        event.target.src = 'http://test.o.gaodun.com/api/login?' + new Date().getTime();
       },
       /**登陆*/
       sign: function () {
@@ -91,26 +91,26 @@
           this.$refs.codes.focus();
           return false;
         }
-
-        ajax.fetch_post(this.host + '/api/login', {
+        ajax.fetch_post('api/login', {
           username: this.userInfo.userName,
           password: this.userInfo.password,
           verification: this.userInfo.verification,
         }).then(res => {
           if (res.data.code === 200) {
             localStorage.setItem('token', res.headers.token);
-            axios.defaults.headers.common['token'] = localStorage.getItem('token');
+            this.$store.state.token=localStorage.getItem('token');
+            //axios.defaults.headers.common['token'] = this.$store.state.token;
             this.successTip("登录成功！");
-            this.$router.push({name: "order", params: {userId: _this.userInfo.userName}});
+            this.$router.push({name: "group", params: {userId: this.userInfo.userName}});
           } else {
             this.errorTip(res.data.info);
-            this.$refs.code.src = _this.host + '/public/verify?' + new Date().getTime();
+            this.$refs.code.src ='http://test.o.gaodun.com/api/login?' + new Date().getTime();
             this.$refs.codes.focus();
             this.userInfo.verification = '';
             return false;
           }
         }).catch(res => {
-          console.log(res);
+          //console.log(res);
         });
       },
       /**重置*/
@@ -122,7 +122,7 @@
     },
     beforeRouteUpdate: function (to, from, next) {
       if (to.name === 'login') {
-        this.$refs.code.src = this.host + '/public/verify?' + new Date().getTime();
+        this.$refs.code.src = 'http://test.o.gaodun.com/api/login?' + new Date().getTime();
         next()
       }
     }

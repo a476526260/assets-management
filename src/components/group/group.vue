@@ -142,7 +142,7 @@
     },
     methods: {
       getGroupList(page) {
-        ajax.fetch_get(this.host + '/api/group', {
+        ajax.fetch_get('api/group', {
           page: page,
           listRows: this.pageNum,
         }).then(res => {
@@ -162,7 +162,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          ajax.fetch_del(this.host + "/api/group/" + id).then(res => {
+          ajax.fetch_del("api/group/" + id).then(res => {
             if (res.data.code === 200) {
               this.successTip("信息删除成功！");
               let page = ((this.total - 1) % this.pageNum === 0 && this.currentPage === (this.total - 1) / this.pageNum + 1) ? this.currentPage - 1 : this.currentPage;
@@ -182,7 +182,7 @@
         this.dialogAddGroupVisible = true;
         this.modifyTypeText = '修改';
         this.clearObjVal(this.modifyGroupData);
-        ajax.fetch_get(this.host + '/api/group/' + id).then(res => {
+        ajax.fetch_get('api/group/' + id).then(res => {
           if (res.data.code === 200) {
             for (let prop in this.modifyGroupData) {
               this.modifyGroupData[prop] = res.data.data[prop];
@@ -199,7 +199,7 @@
       },
       submitDialogData() {
         if (this.modifyTypeText === '添加') {
-          ajax.fetch_post(this.host + '/api/group', this.modifyGroupData).then(res => {
+          ajax.fetch_post('api/group', this.modifyGroupData).then(res => {
             if (res.data.code === 200) {
               this.getGroupList(1);
               this.dialogAddGroupVisible = false;
@@ -212,7 +212,7 @@
           })
         } else {
           if (this.modifyTypeText === '修改') {
-            ajax.fetch_put(this.host + '/api/group/' + this.modifyDataID, this.modifyGroupData).then(res => {
+            ajax.fetch_put('api/group/' + this.modifyDataID, this.modifyGroupData).then(res => {
               if (res.data.code === 200) {
                 this.getGroupList(this.currentPage);
                 this.dialogAddGroupVisible = false;
@@ -234,7 +234,7 @@
       },
       getGroupUserList(id){
         /*获取组成员数据*/
-        ajax.fetch_get(this.host + '/api/groupaccess/' + id).then(res => {
+        ajax.fetch_get('api/groupaccess/' + id).then(res => {
           if (res.data.code === 200) {
             this.targetData=res.data.data;
           } else {
@@ -246,7 +246,7 @@
       },
       getoriginalDate(){
         /*获取源数据*/
-        ajax.fetch_get(this.host + '/api/groupaccess', {
+        ajax.fetch_get('api/groupaccess', {
           gid:this.modifyDataID,
           page: this.currentPage_mini,
           listRows: this.pageNum_mini,
@@ -263,7 +263,7 @@
       },
       handleAddGroupUser(val) {
         /*添加*/
-        ajax.fetch_post(this.host + "/api/groupaccess", {
+        ajax.fetch_post("api/groupaccess", {
           vid: val.map((item) => {
             return item.substring(1)
           }),
@@ -282,7 +282,7 @@
         })
       },
       handleDelGroupUser(val){
-        ajax.fetch_del(this.host + "/api/groupaccess/"+this.modifyDataID,{
+        ajax.fetch_del("api/groupaccess/"+this.modifyDataID,{
           vid:val.map((item) => {
             return item.substring(1);
           }),
@@ -302,7 +302,7 @@
       searchOriginal(val){
         /*搜索源数据*/
         this.originalSearchTxt=val;
-        ajax.fetch_get(this.host + '/api/groupaccess', {
+        ajax.fetch_get('api/groupaccess', {
           gid:this.modifyDataID,
           q:val,
           page: this.currentPage_mini,
@@ -322,7 +322,7 @@
         this.modifyDataID = id;
         this.dialogPermissionVisible=true;
         this.checkAuth={};
-        ajax.fetch_get(this.host+'/api/auth',{
+        ajax.fetch_get('api/auth',{
           id:id
         }).then(res=>{
           if(res.data.code===200){
@@ -351,7 +351,7 @@
         for(let prop in this.checkAuth){
            _tempData=_tempData.concat(this.checkAuth[prop]);
         }
-        ajax.fetch_put(this.host+'/api/auth/'+this.modifyDataID,{
+        ajax.fetch_put('api/auth/'+this.modifyDataID,{
           vid:_tempData
         }).then(res=>{
           if(res.data.code===200){

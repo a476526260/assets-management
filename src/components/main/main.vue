@@ -101,7 +101,7 @@
         window.addEventListener('resize',()=>{
           this.$refs.container.style.height = window.innerHeight - 40 + "px";
         });
-        ajax.fetch_get(this.host + '/api/menu').then(res=> {
+        ajax.fetch_get('api/menu').then(res=> {
           if (res.data.code === 200) {
             this.menu = res.data.data;
             this.menu.forEach(item=> {
@@ -111,7 +111,7 @@
             this.errorTip(res.data.info);
           }
         }).catch(res=> {
-          console.log(res);
+          //console.log(res);
         });
       });
     },
@@ -128,7 +128,7 @@
           this.errorTip("新密码两次输入不一致！");
           return false;
         } else {
-          ajax.fetch_post(this.host+'/public/changePassWord',{
+          ajax.fetch_post('public/changePassWord',{
             oldPassWord:this.modifyData.oldPassword,
             newPassWord:this.modifyData.newPassword,
             reNewPassWord:this.modifyData.newPassword2,
@@ -157,7 +157,7 @@
       },
       signOut: function () {
         /**退出登录*/
-        ajax.fetch_get(this.host + '/public/login').then(res=> {
+        ajax.fetch_get('public/login').then(res=> {
           if (res.data.code === 200) {
             this.dialogVisible = false;
             this.$router.push("/");

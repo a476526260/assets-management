@@ -14,9 +14,6 @@
         userName:"",
       }
     },
-    created(){
-      //console.log(this.$store.state.show)
-    },
     methods:{
       loginSuccess:function (e) {
         this.userName=e.userName;

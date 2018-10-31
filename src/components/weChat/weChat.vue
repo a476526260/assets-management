@@ -81,7 +81,7 @@
     methods: {
       getUserList(page) {
         this.loading = true;
-        ajax.fetch_get(this.host + '/api/wxusers', {
+        ajax.fetch_get('api/wxusers', {
           page: page,
           listRows: this.pageNum,
         }).then(res => {
@@ -95,7 +95,7 @@
         })
       },
       getOtherList() {
-        ajax.fetch_get(this.host + '/api/syswxusers').then(res => {
+        ajax.fetch_get('api/syswxusers').then(res => {
           if (res.data.code === 200) {
             this.successTip('已获取到'+res.data.data.total+'条数据');
             if(res.data.data.total>0){
@@ -109,7 +109,7 @@
         })
       },
       pushToStore(){
-        ajax.fetch_post(this.host + '/api/syswxusers').then(res => {
+        ajax.fetch_post('api/syswxusers').then(res => {
           if (res.data.code === 200) {
             this.successTip(res.data.info);
             this.getUserList(this.currentPage);

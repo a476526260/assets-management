@@ -44,7 +44,7 @@
     },
     methods: {
       gerDepartmentList(){
-        ajax.fetch_get(this.host+'/api/department').then(res=>{
+        ajax.fetch_get('api/department').then(res=>{
           if(res.data.code===200){
             this.tableData=res.data.data
           }
